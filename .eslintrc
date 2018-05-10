@@ -1,0 +1,26 @@
+{
+    "extends": [
+        "airbnb-base",
+        "plugin:jest/recommended"
+    ],
+    "plugins": ["jest"],
+    "rules": {
+        "indent": ["error", 4],
+        "no-param-reassign": ["error", { "props": false }],
+        "quotes": ["error", "double"
+        ],
+        "jest/consistent-test-it": ["error", { "fn": "it", "withinDescribe": "it" }],
+        "jest/prefer-to-be-null": ["error"],
+        "jest/prefer-to-be-undefined": ["error"],
+        "jest/valid-describe": ["error"],
+        "jest/valid-expect-in-promise": ["error"]
+    },
+    "overrides": [
+        {
+            "files": ["*.spec.js", "*.test.js"],
+            "env": {
+                "jest": true
+            }
+        }
+    ]
+}
