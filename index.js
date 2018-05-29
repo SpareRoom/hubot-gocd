@@ -6,7 +6,7 @@ module.exports = (robot) => {
     const host = process.env.HUBOT_GOCD_HOST;
     const port = 8887 || process.env.HUBOT_GOCD_PORT;
 
-    const websocket = new WS({ host, port }, {
+    const websocket = WS({ host, port }, {
         message: (message) => {
             let parsedData;
             try {
