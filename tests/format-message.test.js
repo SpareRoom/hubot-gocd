@@ -84,6 +84,21 @@ describe("format message", () => {
                 expect(formatMessage(pipelineInfo).text).toMatch(/ Finished$/);
             });
 
+            it("Fixed when the type is build, stage state is Passed and it is the final stage and the previousState is 'Failed'", () => {
+                const pipelineInfo = {
+                    name: "test-pipeline",
+                    finished: true,
+                    previousState: "Failed",
+                    currentStage: {
+                        name: "test",
+                        state: "Passed",
+                    },
+                    pipelineType: "build",
+                };
+
+                expect(formatMessage(pipelineInfo).text).toMatch(/ Fixed$/);
+            });
+
             it("Deploying when the type is deployment and stage state is Building", () => {
                 const pipelineInfo = {
                     name: "test-pipeline",

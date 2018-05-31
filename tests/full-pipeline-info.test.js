@@ -50,4 +50,66 @@ describe("build full pipeline info", () => {
             expect(buildFullPipelineInfo(pipelineStatus, pipelineConfig).pipelineType).toBe("build");
         });
     });
+
+    describe("previousState", () => {
+        it("is set to Unknown when no pipeline history", () => {
+            const pipelineStatus = {
+                name: "build-and-test",
+                stage: {},
+            };
+            const pipelineConfig = {
+                stages: [],
+            };
+            const pipelineHistory = {
+                pipelines: [
+                    { },
+                ],
+            };
+
+            expect(buildFullPipelineInfo(pipelineStatus, pipelineConfig, pipelineHistory).previousState).toBe("Unknown");
+        });
+
+        it("is set to Passed when previous run Passed", () => {
+            const pipelineStatus = {
+                name: "build-and-test",
+                stage: {},
+            };
+            const pipelineConfig = {
+                stages: [],
+            };
+            const pipelineHistory = {
+                pipelines: [
+                    {},
+                    {
+                        stages: [{ result: "Passed" }],
+                    },
+                ],
+            };
+
+            expect(buildFullPipelineInfo(pipelineStatus, pipelineConfig, pipelineHistory).previousState).toBe("Passed");
+        });
+
+        it("is set to Failed when previous run Failed", () => {
+            const pipelineStatus = {
+                name: "build-and-test",
+                stage: {},
+            };
+            const pipelineConfig = {
+                stages: [],
+            };
+            const pipelineHistory = {
+                pipelines: [
+                    {},
+                    {
+                        stages: [
+                            { result: "Passed" },
+                            { result: "Failed" },
+                        ],
+                    },
+                ],
+            };
+
+            expect(buildFullPipelineInfo(pipelineStatus, pipelineConfig, pipelineHistory).previousState).toBe("Failed");
+        });
+    });
 });
