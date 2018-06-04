@@ -20,6 +20,5 @@ module.exports = (robot) => {
         handlePipelineStatus(robot, parsedData);
     });
 
-    websocket.start()
-        .then(() => console.log(`Listener for GOCD events from ${host} on port ${port}`));
+    websocket.start();
 };
