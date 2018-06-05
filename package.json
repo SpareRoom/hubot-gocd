@@ -1,6 +1,6 @@
 {
     "name": "@spareroom/hubot-gocd-websocket",
-    "version": "1.1.22",
+    "version": "1.1.25",
     "description": "",
     "main": "index.js",
     "scripts": {

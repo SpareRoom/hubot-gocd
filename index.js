@@ -17,7 +17,11 @@ module.exports = (robot) => {
             return;
         }
 
-        handlePipelineStatus(robot, parsedData);
+        try {
+            handlePipelineStatus(robot, parsedData);
+        } catch (e) {
+            console.log(`Could not handle message: "${e.message}"`);
+        }
     });
 
     websocket.start();

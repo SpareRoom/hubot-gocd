@@ -49,6 +49,24 @@ describe("filter message", () => {
                     finished: true,
                 }, [])).toBe(true));
             });
+
+            describe("status is white listed", () => {
+                it("returns true when Passed is whitelisted and pipeline state is Passed", () => expect(shouldShowUpdate(false, {
+                    currentStage: { stageNumber: 1, state: "Passed" },
+                    finished: true,
+                }, ["Passed"])).toBe(true));
+
+                it("returns false when Passed is not whitelisted and pipeline state is Passed", () => expect(shouldShowUpdate(false, {
+                    currentStage: { stageNumber: 1, state: "Failed" },
+                    finished: true,
+                }, ["Failed"])).toBe(true));
+
+                it("returns true when Fixed is whitelisted and pipeline state is Fixed", () => expect(shouldShowUpdate(false, {
+                    currentStage: { stageNumber: 1, state: "Passed" },
+                    previousState: "Failed",
+                    finished: true,
+                }, ["Fixed"])).toBe(true));
+            });
         });
     });
 });
