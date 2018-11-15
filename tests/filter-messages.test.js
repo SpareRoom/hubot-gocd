@@ -2,24 +2,32 @@ const { shouldShowUpdate, matchPipeline } = require("../lib/pipeline-status/filt
 
 describe("filter message", () => {
     describe("matchPipelineOn", () => {
-        describe("no matchOn options provided", () => {
-            it("returns true", () => expect(matchPipeline()).toBe(true));
+        describe("no matchOn or exclude options provided", () => {
+            it("returns true", () => expect(matchPipeline({})).toBe(true));
         });
 
         describe("matchOn pipeline name", () => {
-            it("returns true when name matches regex", () => expect(matchPipeline({ pipeline: "^pipeline$" }, { name: "pipeline" })).toBeTruthy());
+            it("returns true when name matches regex", () => expect(matchPipeline({ matchOn: { pipeline: "^pipeline$" } }, { name: "pipeline" })).toBeTruthy());
 
-            it("returns false when name doesnt matches regex", () => expect(matchPipeline({ pipeline: "^nomatch$" }, { name: "pipeline" })).toBeFalsy());
+            it("returns false when name doesnt matches regex", () => expect(matchPipeline({ matchOn: { pipeline: "^nomatch$" } }, { name: "pipeline" })).toBeFalsy());
 
-            it("returns true when name matches or regex for live", () => expect(matchPipeline({ pipeline: "(live|prod)" }, { name: "live pipeline" })).toBeTruthy());
+            it("returns true when name matches or regex for live", () => expect(matchPipeline({ matchOn: { pipeline: "(live|prod)" } }, { name: "live pipeline" })).toBeTruthy());
 
-            it("returns true when name matches or regex for prod", () => expect(matchPipeline({ pipeline: "(live|prod)" }, { name: "production pipeline" })).toBeTruthy());
+            it("returns true when name matches or regex for prod", () => expect(matchPipeline({ matchOn: { pipeline: "(live|prod)" } }, { name: "production pipeline" })).toBeTruthy());
         });
 
         describe("matchOn pipeline group", () => {
-            it("returns true when group matches regex", () => expect(matchPipeline({ group: "^group$" }, { group: "group" })).toBeTruthy());
+            it("returns true when group matches regex", () => expect(matchPipeline({ matchOn: { group: "^group$" } }, { group: "group" })).toBeTruthy());
 
-            it("returns false when group doesnt matches regex", () => expect(matchPipeline({ group: "^nomatch$" }, { group: "group" })).toBeFalsy());
+            it("returns false when group doesnt matches regex", () => expect(matchPipeline({ matchOn: { group: "^nomatch$" } }, { group: "group" })).toBeFalsy());
+        });
+
+        describe("exclude pipeline name", () => {
+            it("returns false when name matches regex", () => expect(matchPipeline({ exclude: { pipeline: "^pipeline$" } }, { name: "pipeline" })).toBeFalsy());
+        });
+
+        describe("exclude group name", () => {
+            it("returns false when name matches regex", () => expect(matchPipeline({ exclude: { group: "^group$" } }, { group: "group" })).toBeFalsy());
         });
     });
 
